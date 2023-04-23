@@ -2,6 +2,7 @@
 FROM node:lts-alpine as builder
 WORKDIR /usr/src/app
 COPY package.json ./
+RUN npm install @angular/cli -g
 RUN npm install
 RUN npm i nginx
 COPY . .
