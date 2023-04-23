@@ -1,23 +1,19 @@
 # stage 1
 FROM node:lts-alpine as builder
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json ./
-RUN npm cache clean --force
-RUN npm install @angular/cli -g
-RUN npm i
+RUN npm install
+RUN npm i nginx
 COPY . .
-RUN ng build --configuration production --output-path=/dist
+RUN ng build --configuration production
 # stage 2
-FROM nginx:stable-alpine
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static assets
-RUN rm -rf ./*
-# Copy static assets from builder stage
-COPY --from=builder /dist .
-# Containers run nginx with global directives and daemon off
-EXPOSE 80
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+FROM nginx:1.17.1-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /usr/src/app/dist/out/. /usr/share/nginx/html
+EXPOSE 80/tcp
+
+# Run the Nginx server
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 
 
 
