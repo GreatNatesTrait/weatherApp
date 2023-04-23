@@ -1,0 +1,17 @@
+<div class="btn-group">
+    <button (click)="onClick($event)" id="DC">Washington DC</button>
+    <button (click)="onClick($event)" id="NYC">NYC</button>
+  </div>
+  <br>
+  <br>
+   <carousel [interval]="myInterval" [noWrap]="noWrapSlides" >
+    <slide *ngFor="let slide of cardData">
+      <div class="text-center py-5 bg-dark text-white">
+        <h1>{{displayValue}}</h1> 
+        <h6>{{slide.name}}</h6> 
+        <br>
+        <br>
+        <p>{{slide.detailedForecast}}</p>
+      </div>
+    </slide>
+  </carousel> 
