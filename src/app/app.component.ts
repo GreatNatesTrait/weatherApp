@@ -10,6 +10,3 @@ export class AppComponent {
   title = 'weatherApp';
 }
 
-//testing
-//testing again
-//testing3
